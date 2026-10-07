@@ -1,0 +1,49 @@
+@startuml HotelFacade
+title Simplified Hotel Management System (Facade Pattern)
+skinparam classAttributeIconSize 0
+
+interface HotelService {
+  +getServiceName() : String
+}
+
+class Valet {
+  +getServiceName() : String
+  +pickUpVehicle(plateNumber : String) : void
+}
+
+class HouseKeeping {
+  +getServiceName() : String
+  +cleanRoom(roomNumber : int) : void
+}
+
+class Cart {
+  +getServiceName() : String
+  +requestCart(numberOfCarts : int) : void
+}
+
+class FrontDesk <<Facade>> {
+  -valet : Valet
+  -houseKeeping : HouseKeeping
+  -cart : Cart
+  +FrontDesk()
+  +checkIn(roomNumber : int, numberOfCarts : int) : void
+  +checkOut(roomNumber : int, plateNumber : String) : void
+  +pickUpVehicle(plateNumber : String) : void
+  +cleanRoom(roomNumber : int) : void
+  +requestCart(numberOfCarts : int) : void
+}
+
+class HotelApp <<Client>> {
+  +main(args : String[]) : void
+}
+
+HotelService <|.. Valet
+HotelService <|.. HouseKeeping
+HotelService <|.. Cart
+
+FrontDesk o-- Valet
+FrontDesk o-- HouseKeeping
+FrontDesk o-- Cart
+
+HotelApp ..> FrontDesk : uses
+@enduml
